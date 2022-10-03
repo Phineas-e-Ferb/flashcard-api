@@ -11,8 +11,9 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = User.new(user_params)
-
+        params = user_params
+        @user = User.new({ username: params[:username] })
+        @user.password = params[:password]
         if @user.save
             render json: { message: "User was created" }
         end
