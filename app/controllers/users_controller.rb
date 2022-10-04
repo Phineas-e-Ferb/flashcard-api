@@ -15,12 +15,10 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    params = user_params
     @user = User.new({username: params[:username]})
     @user.password = params[:password]
-
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: {"message": "User was created!"}, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -40,6 +38,18 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
+  def login
+    @user = User.find_by({username: params[:username]})
+    puts @user.password
+    puts params[:password]
+    puts @user.password == params[:password]
+    if @user.password == params[:password]
+      render json: {token: "Usuário logado com sucesso!"}
+    else
+      render json: {"message": "Erro"}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -48,6 +58,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :password_hash)
+      params.require(:user).permit(:username, :password)
     end
 end
