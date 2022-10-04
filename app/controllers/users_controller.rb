@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @user = User.new({username: params[:username], image: params[:image]})
     @user.password = params[:password]
     if @user.save
-      render json: {"message": "User was created!"}, status: :created, location: @user
+      render json: {"message": "User was created!", user: @user}, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     if @user.password == params[:password]
       render json: {token: "Usuário logado com sucesso!", user: @user}
     else
-      render json: {"message": "Erro"}
+      render json: {"message": "Erro"}, status: 401
     end
   end
 
