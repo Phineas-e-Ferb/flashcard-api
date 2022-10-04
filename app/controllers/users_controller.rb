@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new({username: params[:username]})
+    @user = User.new({username: params[:username], image: params[:image]})
     @user.password = params[:password]
     if @user.save
       render json: {"message": "User was created!"}, status: :created, location: @user
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     puts params[:password]
     puts @user.password == params[:password]
     if @user.password == params[:password]
-      render json: {token: "Usuário logado com sucesso!"}
+      render json: {token: "Usuário logado com sucesso!", user: @user}
     else
       render json: {"message": "Erro"}
     end
@@ -58,6 +58,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:username, :password)
+      params.require(:user).permit(:username, :password, :image)
     end
 end
