@@ -40,9 +40,6 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by({username: params[:username]})
-    puts @user.password
-    puts params[:password]
-    puts @user.password == params[:password]
     if @user.password == params[:password]
       render json: {token: "Usuário logado com sucesso!", user: @user}
     else
