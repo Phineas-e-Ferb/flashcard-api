@@ -2,6 +2,7 @@ require 'bcrypt'
 
 class User < ApplicationRecord
     # users.password_hash in the database is a :string
+    has_many :flashcard_lists
     include BCrypt
 
     def password
